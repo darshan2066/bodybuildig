@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bodybuilding Competition Manager</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto 20px auto;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        form input, form select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        form button {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        table, th, td {
+            border: none;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        td button {
+            padding: 6px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        td button.delete {
+            background-color: #dc3545;
+        }
+
+        td button:hover {
+            opacity: 0.9;
+        }
+
+        .weight-class {
+            margin-top: 40px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Bodybuilding Competition Manager</h1>
+
+    <form id="competitorForm">
+        <input type="hidden" id="editIndex" value="">
+        
+        <label for="tagno">Tag No.: </label>
+        <input type="text" id="tagno" required>
+
+        <label for="name">Name: </label>
+        <input type="text" id="name" required>
+
+        <label for="address">Address: </label>
+        <input type="text" id="address" required>
+
+        <label for="contact">Contact Number: </label>
+        <input type="text" id="contact" required>
+
+        <label for="gym">Gym Name: </label>
+        <input type="text" id="gym" required>
+
+        <label for="rank">Rank: </label>
+        <input type="number" id="rank" required min="1">
+
+        <label for="weight">Weight Class: </label>
+        <select id="weight" required>
+            <option value="55kg">55 kg</option>
+            <option value="60kg">60 kg</option>
+            <option value="65kg">65 kg</option>
+            <option value="75kg">75 kg</option>
+            <option value="85kg">85 kg</option>
+            <option value="85+kg">85+ kg</option>
+        </select>
+
+        <button type="button" onclick="addOrUpdateCompetitor()">Add Competitor</button>
+    </form>
+
+    <h2>Main Competitor List</h2>
+
+    <table id="mainCompetitorTable">
+        <thead>
+            <tr>
+                <th>Serial No.</th>
+                <th>Tag No.</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Contact Number</th>
+                <th>Gym Name</th>
+                <th>Rank</th>
+                <th>Weight Class</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <button type="button" onclick="saveCompetitors()">Save Competitors</button>
+
+    <h2>Competitor List by Weight Class</h2>
+
+    <div id="competitorTables">
+        <div class="weight-class">
+            <h3>55 kg</h3>
+            <table id="55kgTable">
+                <thead>
+                    <tr>
+                        <th>Serial No.</th>
+                        <th>Tag No.</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Contact Number</th>
+                        <th>Gym Name</th>
+                        <th>Rank</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="weight-class">
+            <h3>60 kg</h3>
+            <table id="60kgTable">
+                <thead>
+                    <tr>
+                        <th>Serial No.</th>
+                        <th>Tag No.</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Contact Number</th>
+                        <th>Gym Name</th>
+                        <th>Rank</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="weight-class">
+            <h3>65 kg</h3>
+            <table id="65kgTable">
+                <thead>
+                    <tr>
+                        <th>Serial No.</th>
+                        <th>Tag No.</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Contact Number</th>
+                        <th>Gym Name</th>
+                        <th>Rank</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="weight-class">
+            <h3>75 kg</h3>
+            <table id="75kgTable">
+                <thead>
+                    <tr>
+                        <th>Serial No.</th>
+                        <th>Tag No.</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Contact Number</th>
+                        <th>Gym Name</th>
+                        <th>Rank</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="weight-class">
+            <h3>85 kg</h3>
+            <table id="85kgTable">
+                <thead>
+                    <tr>
+                        <th>Serial No.</th>
+                        <th>Tag No.</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Contact Number</th>
+                        <th>Gym Name</th>
+                        <th>Rank</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="weight-class">
+            <h3>85+ kg</h3>
+            <table id="85+kgTable">
+                <thead>
+                    <tr>
+                        <th>Serial No.</th>
+                        <th>Tag No.</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Contact Number</th>
+                        <th>Gym Name</th>
+                        <th>Rank</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h2>Competitor List Sorted by Rank</h2>
+
+    <table id="sortedByRankTable">
+        <thead>
+            <tr>
+                <th>Serial No.</th>
+                <th>Tag No.</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Contact Number</th>
+                <th>Gym Name</th>
+                <th>Rank</th>
+                <th>Weight Class</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+    let competitors = {
+        "main": [],
+        "55kg": [],
+        "60kg": [],
+        "65kg": [],
+        "75kg": [],
+        "85kg": [],
+        "85+kg": []
+    };
+    
+    let editIndex = -1;
+    let currentWeightClass = "";
+
+    function addOrUpdateCompetitor() {
+        const tagno = document.getElementById("tagno").value;
+        const name = document.getElementById("name").value;
+        const address = document.getElementById("address").value;
+        const contact = document.getElementById("contact").value;
+        const gym = document.getElementById("gym").value;
+        const rank = document.getElementById("rank").value;
+        const weight = document.getElementById("weight").value;
+
+        const competitor = { tagno, name, address, contact, gym, rank, weight };
+
+        if (editIndex === -1) {
+            // Add new competitor
+            competitors.main.push(competitor);
+            competitors[weight].push(competitor);
+        } else {
+            // Update existing competitor
+            const oldWeight = competitors.main[editIndex].weight;
+
+            // Update the main competitor list
+            competitors.main[editIndex] = competitor;
+
+            // Remove from the old weight class if weight class changed
+            if (oldWeight !== weight) {
+                competitors[oldWeight] = competitors[oldWeight].filter((_, i) => i !== editIndex);
+                competitors[weight].push(competitor);
+            } else {
+                // Update the weight class list if weight class remains the same
+                competitors[weight][editIndex] = competitor;
+            }
+
+            editIndex = -1;
+        }
+
+        displayMainCompetitors();
+        displayCompetitors(weight);
+        displayRankedCompetitors();
+        clearForm();
+    }
+
+    function displayMainCompetitors() {
+        const mainTableBody = document.getElementById("mainCompetitorTable").getElementsByTagName("tbody")[0];
+        mainTableBody.innerHTML = "";
+
+        competitors.main.forEach((competitor, index) => {
+            const newRow = mainTableBody.insertRow();
+
+            newRow.insertCell(0).innerText = index + 1;
+            newRow.insertCell(1).innerText = competitor.tagno;
+            newRow.insertCell(2).innerText = competitor.name;
+            newRow.insertCell(3).innerText = competitor.address;
+            newRow.insertCell(4).innerText = competitor.contact;
+            newRow.insertCell(5).innerText = competitor.gym;
+            newRow.insertCell(6).innerText = competitor.rank;
+            newRow.insertCell(7).innerText = competitor.weight;
+
+            const actionCell = newRow.insertCell(8);
+            actionCell.innerHTML = `
+                <button onclick="editCompetitor(${index}, '${competitor.weight}')">Edit</button>
+                <button class="delete" onclick="deleteCompetitor(${index})">Delete</button>
+            `;
+        });
+    }
+
+    function displayCompetitors(weight) {
+        const tableBody = document.getElementById(weight + "Table").getElementsByTagName("tbody")[0];
+        tableBody.innerHTML = "";
+
+        competitors[weight].forEach((competitor, index) => {
+            const newRow = tableBody.insertRow();
+
+            newRow.insertCell(0).innerText = index + 1;
+            newRow.insertCell(1).innerText = competitor.tagno;
+            newRow.insertCell(2).innerText = competitor.name;
+            newRow.insertCell(3).innerText = competitor.address;
+            newRow.insertCell(4).innerText = competitor.contact;
+            newRow.insertCell(5).innerText = competitor.gym;
+            newRow.insertCell(6).innerText = competitor.rank;
+
+            const actionCell = newRow.insertCell(7);
+            actionCell.innerHTML = `
+                <button onclick="editCompetitor(${index}, '${weight}')">Edit</button>
+                <button class="delete" onclick="deleteCompetitor(${index}, '${weight}')">Delete</button>
+            `;
+        });
+    }
+
+    function displayRankedCompetitors() {
+        const sortedCompetitors = [...competitors.main].sort((a, b) => a.rank - b.rank);
+        const rankedTableBody = document.getElementById("sortedByRankTable").getElementsByTagName("tbody")[0];
+        rankedTableBody.innerHTML = "";
+
+        sortedCompetitors.forEach((competitor, index) => {
+            const newRow = rankedTableBody.insertRow();
+
+            newRow.insertCell(0).innerText = index + 1;
+            newRow.insertCell(1).innerText = competitor.tagno;
+            newRow.insertCell(2).innerText = competitor.name;
+            newRow.insertCell(3).innerText = competitor.address;
+            newRow.insertCell(4).innerText = competitor.contact;
+            newRow.insertCell(5).innerText = competitor.gym;
+            newRow.insertCell(6).innerText = competitor.rank;
+            newRow.insertCell(7).innerText = competitor.weight;
+        });
+    }
+
+    function editCompetitor(index, weight) {
+        const competitor = competitors.main[index];
+
+        document.getElementById("tagno").value = competitor.tagno;
+        document.getElementById("name").value = competitor.name;
+        document.getElementById("address").value = competitor.address;
+        document.getElementById("contact").value = competitor.contact;
+        document.getElementById("gym").value = competitor.gym;
+        document.getElementById("rank").value = competitor.rank;
+        document.getElementById("weight").value = competitor.weight;
+
+        editIndex = index;
+        currentWeightClass = weight;
+    }
+
+    function deleteCompetitor(index) {
+        const weight = competitors.main[index].weight;
+
+        competitors.main.splice(index, 1);
+        competitors[weight] = competitors[weight].filter((_, i) => i !== index);
+
+        displayMainCompetitors();
+        displayCompetitors(weight);
+        displayRankedCompetitors();
+    }
+
+    function clearForm() {
+        document.getElementById("competitorForm").reset();
+        editIndex = -1;
+    }
+
+    function saveCompetitors() {
+        localStorage.setItem("competitors", JSON.stringify(competitors));
+        alert("Competitors saved successfully!");
+    }
+
+    function loadCompetitors() {
+        const savedCompetitors = localStorage.getItem("competitors");
+        if (savedCompetitors) {
+            competitors = JSON.parse(savedCompetitors);
+            displayMainCompetitors();
+            Object.keys(competitors).forEach(weight => {
+                if (weight !== "main") {
+                    displayCompetitors(weight);
+                }
+            });
+            displayRankedCompetitors();
+        }
+    }
+
+    // Load competitors on page load
+    window.onload = loadCompetitors;
+</script>
+
+</body>
+</html>
